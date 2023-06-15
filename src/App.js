@@ -1,17 +1,33 @@
-import logo from './logo.svg';
-import './App.css';
+import { useState } from "react";
+import TodoInput from "./TodoInput";
+import TodoList from "./ToDoList";
+import "./App.css";
 
-function App() {
-  return (
-    <div className="App">
-      <h1>React To-Do App</h1>
+const App = () => {
+    const [todos, setTodos] = useState([]);
+    const [todo, setTodo] = useState("");
 
-      <div className="input-wrapper">
-        <input type="text" name="todo" placeholder="Create a new todo" />
-        <button className="add-button">Add</button>
-      </div>
-    </div>
-  );
-}
+    const addTodo = () => {
+        if (todo !== "") {
+            setTodos([...todos, todo]);
+            setTodo("");
+        }
+    };
+
+    const deleteTodo = (text) => {
+        const newTodos = todos.filter((todo) => {
+            return todo !== text;
+        });
+        setTodos(newTodos);
+    };
+
+    return (
+        <div className="App">
+            <h1>React Todo App</h1>
+            <TodoInput todo={todo} setTodo={setTodo} addTodo={addTodo} />
+            <TodoList list={todos} remove={deleteTodo} />
+        </div>
+    );
+};
 
 export default App;
